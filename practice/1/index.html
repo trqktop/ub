@@ -10,10 +10,10 @@
 </head>
 
 <body class="page">
-    <header><button class="open-popup"></button></header>
+    <header></header>
     <main class="content">
-        <section>
-            <p style="color:red; margin-top: 200vh;">text</p>
+        <section class="section">
+            <button class="section__button">Открыть попап</button>
         </section>
     </main>
     <footer></footer>
@@ -52,10 +52,11 @@
                             <span class="popup__input-error emailInput-error error"></span>
                         </div>
                     </div>
-                    <div class="popup__error-fieldset popup__error-fieldset_logo-background">
+
+                    <div class=" popup__error-fieldset-logo-background">
                         <input class="popup__input-logo" type="file" id="logo" name="logo" accept=".jpeg, .png"
                             id="logo" required>
-                        <label class="popup__input-label-logo" for="logo">
+                        <label class="popup__input-logo-label" for="logo">
                             <span class="popup__star-style">&#10033;</span> Логотип(jpeg,png)</label>
                         <!--  minlength="2" maxlength="30" -->
                         <span class="popup__input-error logo-error error"></span>
@@ -64,6 +65,7 @@
                             <span class="popup__input-logo-custom-text">Выберите файл</span>
                         </label>
                     </div>
+
                 </div>
                 <div class="popup__error-fieldset">
                     <select value="" name="field" class="popup__input" id="fieldInput">

@@ -112,8 +112,14 @@ function numberInputAutoReplacer(input) {
 
 
 
+const openPopupButton = document.querySelector('.section__button')
+const popup = document.querySelector('.popup')
+const closePopupButton = popup.querySelector('.popup__close-button')
 
 
+
+openPopupButton.addEventListener('click', () => openPopup(popup))
+closePopupButton.addEventListener('click', () => closePopup(popup))
 
 
 function openPopup(popupElement) {//Функция открытия попапа
