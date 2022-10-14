@@ -33,7 +33,7 @@
     margin-top: 66px;
 }
 
-.popup__input-logo_custom-styles {
+.popup__input-logo-custom-styles {
     position: absolute;
     width: fit-content;
     height: fit-content;
@@ -48,23 +48,42 @@
     cursor: pointer;
 }
 
-.popup__input-logo_custom-pic {
+.popup__input-label-logo {
+    border: 1px red solid;
+    top: 0;
+    position: absolute;
+    left: 0;
+}
+
+.popup__input-logo-custom-pic {
     display: block;
     max-width: 30px;
     align-self: center;
 }
 
-.popup__input-logo_custom-text {
+.popup__input-logo-custom-text {
     display: inline-block;
     max-width: 56px;
     text-align: center;
 }
 
-.popup__input-label_logo {
+.popup__input-label-logo {
     display: inline;
     width: 100%;
     text-align: center;
     top: -36px;
     font-size: 14px;
     line-height: 24px;
+}
+
+.popup_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.open-popup{
+    width: 100%;
+    height: 100%;
+    border: 1px red solid;
+    position: absolute;
 }
