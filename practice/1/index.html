@@ -59,10 +59,10 @@
                         <label class="popup__input-logo-label" for="logo">
                             <span class="popup__star-style">&#10033;</span> Логотип(jpeg,png)</label>
                         <!--  minlength="2" maxlength="30" -->
-                        <span class="popup__input-error logo-error error"></span>
+                        <!-- <span class="popup__input-error logo-error error"></span> -->
                         <label for='logo' class="popup__input-logo-custom-styles">
                             <img class="popup__input-logo-custom-pic" alt='Логотип' src="./images/logo_svg.svg">
-                            <span class="popup__input-logo-custom-text">Выберите файл</span>
+                            <span class="logo-error error popup__input-logo-custom-text">Выберите файл</span>
                         </label>
                     </div>
 
@@ -114,7 +114,8 @@
                     <span class="popup__input-error DirectorInput-error error"></span>
                 </div>
 
-                <button type="submit" class="popup__submit-button" disabled>Стать партнёром проекта</button>
+                <button type="submit" class="popup__submit-button popup__submit-button_disabled " disabled>Стать
+                    партнёром проекта</button>
                 <button class="popup__close-button" type="reset">Отменить</button>
             </form>
         </div>

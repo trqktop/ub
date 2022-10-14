@@ -7,7 +7,7 @@ const validatorConfig = ({
     inputErrorClass: '.popup__input_error-style',
     errorClass: '.popup__input-error',
     openedPopup: 'popup_opened'
-})
+})//конфиг настроек для валидации
 
 
 function enableValidation(config) {
@@ -15,7 +15,7 @@ function enableValidation(config) {
     formArr.forEach((formElement) => {
         setEventListeners(config, formElement)
     });
-}
+}//вешаем слушатель событий на все формы
 
 
 
@@ -25,38 +25,37 @@ function setEventListeners(config, formElement) {
     formElement.addEventListener('input', function (evt) {
         hasValidForm(config, formElement, evt.target, popupSubmitButtonToggleStyle)
     });
-}
+}//при вводе в инпут проверям каждый символ на валидность
 
 
 function checkValidation(formElement) {
     return formElement.checkValidity()
-}
+}//false если форма не валидна
 
 function hasValidForm(config, formElement, currentInput, popupSubmitButtonToggleStyle) {
     const currentErrorMessage = findErrorMessage(currentInput, formElement)
     const submitButton = formElement.querySelector(config.submitButtonSelector)
-
     if (checkValidation(formElement)) {
-        activeSubmitButton(submitButton, popupSubmitButtonToggleStyle)
+        activeSubmitButton(submitButton, popupSubmitButtonToggleStyle)//если валидна разблокировать кнопку субмита
     } else {
-        disableSubmitButton(submitButton, popupSubmitButtonToggleStyle)
+        disableSubmitButton(submitButton, popupSubmitButtonToggleStyle)//если не валидно. заблокировать
     }
-    hasValidInput(currentInput, currentErrorMessage, config)
+    hasValidInput(currentInput, currentErrorMessage, config)//смотрим валидность инпута
 }
 
 function hasValidInput(currentInput, currentErrorMessage, config) {
     if (checkValidation(currentInput)) {
-        hideErrorMessage(currentErrorMessage, currentInput, config)
+        hideErrorMessage(currentErrorMessage, currentInput, config)//если инпут валиден. прячем ошибку
     }
     else {
-        numberInputAutoReplacer(currentInput)
-        showErrorMessage(currentErrorMessage, currentInput, config)
+        numberInputAutoReplacer(currentInput) //это нужно дописать. автозамена на вилдную маску в импуте с номером!!!!!!!
+        showErrorMessage(currentErrorMessage, currentInput, config)//если нет показываем ошибку
     }
 }
 
 
 function findErrorMessage(currentInput, formElement) {
-    return formElement.querySelector(`.${currentInput.id}-error`)
+    return formElement.querySelector(`.${currentInput.id}-error`)//ищем ошибку в текущей форме
 }
 
 function showErrorMessage(currentErrorMessage, currentInput, config) {
@@ -91,7 +90,7 @@ enableValidation(validatorConfig)
 
 
 
-function numberInputAutoReplacer(input) {
+function numberInputAutoReplacer(input) {//не нравится. переделать!!!!!!!
     input.id === 'phone' ?
         input.value.match(/[1-9]/) && input.value.length === 1 ?
             input.value = '+7' : '' : ''
@@ -104,35 +103,39 @@ function numberInputAutoReplacer(input) {
 
 
 
+const popupConfig = {
+    openPopupButtonSelector: '.section__button',
+    closePopupButtonSelector: '.popup__close-button',
+    popupSelector: '.popup'
+}//конфиг настроек для модульного окна
 
 
+enablePopup(popupConfig)
 
 
+function enablePopup({ ...popupConfig }) { //передаем конфиг
+    const { openPopupButtonSelector, closePopupButtonSelector, popupSelector } = popupConfig//деструктуризируем
+    const openPopupButton = document.querySelector(openPopupButtonSelector)
+    const popup = document.querySelector(popupSelector)
+    const closePopupButton = popup.querySelector(closePopupButtonSelector)//находим все елементы
+    openPopupButton.addEventListener('click', () => openPopup(popup))//вешаем слушатели
+    closePopupButton.addEventListener('click', () => closePopup(popup))//и этот тоже
+}
 
 
-
-
-const openPopupButton = document.querySelector('.section__button')
-const popup = document.querySelector('.popup')
-const closePopupButton = popup.querySelector('.popup__close-button')
-
-
-
-openPopupButton.addEventListener('click', () => openPopup(popup))
-closePopupButton.addEventListener('click', () => closePopup(popup))
 
 
 function openPopup(popupElement) {//Функция открытия попапа
     popupElement.classList.add('popup_opened')
-    document.addEventListener("keydown", closePopupEsc)//(c)'добавлять обработчик события в функции открытия попапов'
-    document.addEventListener('mousedown', closePopupOverlay)//(c)'добавлять обработчик события в функции открытия попапов'
+    document.addEventListener("keydown", closePopupEsc)//'добавлять обработчик события в функции открытия попапов'
+    document.addEventListener('mousedown', closePopupOverlay)//'добавлять обработчик события в функции открытия попапов'
 }
 
 
 function closePopup(popupElement) {
     popupElement.classList.remove('popup_opened')
-    document.removeEventListener("keydown", closePopupEsc)// (c)'удалять его при закрытии попапов.'
-    document.removeEventListener('mousedown', closePopupOverlay)// (c)'удалять его при закрытии попапов.'
+    document.removeEventListener("keydown", closePopupEsc)// 'удалять его при закрытии попапов.'
+    document.removeEventListener('mousedown', closePopupOverlay)//'удалять его при закрытии попапов. иначе будет вешаться бесконечно'
 }
 
 
