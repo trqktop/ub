@@ -1,0 +1,9 @@
+.page {
+    display: block;
+    min-width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    border: 1px red solid;
+    margin: 0;
+    padding: 0;
+}

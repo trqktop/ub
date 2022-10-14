@@ -1,1 +1,31 @@
 @import url('../vendor/normalize.css');
+@import url('../blocks/page/page.css');
+@import url('../blocks/content/content.css');
+@import url('../blocks/popup/popup.css');
+@import url('../blocks/popup/__container/popup__container.css');
+@import url('../blocks/popup/__form/popup__form.css');
+@import url('../blocks/popup/__title/popup__title.css');
+@import url('../blocks/popup/__error-fieldset/popup__error-fieldset.css');
+@import url('../blocks/popup/__input/popup__input.css');
+@import url('../blocks/popup/__input/_logo/popup__input_logo.css');
+@import url('../blocks/popup/__input-label/popup__input-label.css');
+@import url('../blocks/popup/__input-label/_logo/popup__input-label_logo.css');
+@import url('../blocks/popup/__star-style/popup__star-style.css');
+@import url('../blocks/popup/__flex-container/popup__flex-container.css');
+@import url('../blocks/popup/__error-fildsets/popup__error-fildsets.css');
+
+@import url('../blocks/popup/__submit-button/popup__submit-button.css');
+@import url('../blocks/popup/__close-button/popup__close-button.css');
+
+.popup__error-fieldset_logo-background {
+    margin: 0;
+    padding: 0;
+    max-width: 163px;
+    max-height: 163px;
+    background-image: url('../images/logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100%;
+    width: 100%;
+}
