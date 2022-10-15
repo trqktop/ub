@@ -12,6 +12,7 @@ const validatorConfig = ({
 
 function enableValidation(config) {
     const formArr = Array.from(document.querySelectorAll(config.formSelector))
+    formArr.forEach(form => numberInputMaskEnable(form.querySelector('#phone'), config, form))//ищу все поля с номерами телефона и передаю в маску
     formArr.forEach((formElement) => {
         setEventListeners(config, formElement)
     });
@@ -26,6 +27,25 @@ function setEventListeners(config, formElement) {
         hasValidForm(config, formElement, evt.target, popupSubmitButtonToggleStyle)
     });
 }//при вводе в инпут проверям каждый символ на валидность
+
+
+function numberInputMaskEnable(numberInput, config, form) {
+    numberInput.addEventListener('focusout', (evt) => {
+        numberMaskReplacer(numberInput)
+        hasValidForm(config, form, evt.target, config.inactiveButtonClass)
+    }, { once: true }
+    )
+}
+
+function numberMaskReplacer(numberInput) {
+    if (numberInput.value.length > 9) {
+        numberInput.value = numberInput.value.split('').reduce((prev, char, index) => {
+            return index === 0 ? prev.replace(' x', '+7') : prev.replace('x', char)
+        }, ' x(xxx)xxx-xx-xx')
+        checkValidation(numberInput)
+    }
+}
+
 
 
 function checkValidation(formElement) {
@@ -48,10 +68,13 @@ function hasValidInput(currentInput, currentErrorMessage, config) {
         hideErrorMessage(currentErrorMessage, currentInput, config)//если инпут валиден. прячем ошибку
     }
     else {
-        numberInputAutoReplacer(currentInput) //это нужно дописать. автозамена на вилдную маску в импуте с номером!!!!!!!
         showErrorMessage(currentErrorMessage, currentInput, config)//если нет показываем ошибку
     }
 }
+
+
+
+
 
 
 function findErrorMessage(currentInput, formElement) {
@@ -90,11 +113,7 @@ enableValidation(validatorConfig)
 
 
 
-function numberInputAutoReplacer(input) {//не нравится. переделать!!!!!!!
-    input.id === 'phone' ?
-        input.value.match(/[1-9]/) && input.value.length === 1 ?
-            input.value = '+7' : '' : ''
-}
+
 
 
 
@@ -126,6 +145,9 @@ function enablePopup({ ...popupConfig }) { //передаем конфиг
 
 
 
+function submitForm(popupElement) {
+    closePopup(popupElement)
+}
 
 
 function openPopup(popupElement) {//Функция открытия попапа
@@ -139,9 +161,7 @@ function openPopup(popupElement) {//Функция открытия попапа
 }
 
 
-function submitForm(popupElement) {
-    closePopup(popupElement)
-}
+
 
 
 function closePopup(popupElement) {
@@ -163,8 +183,6 @@ function closePopupOverlay(evt) {
     if (evt.target.classList.contains('popup'))
         closePopup(evt.target)
 }
-
-
 
 
 
