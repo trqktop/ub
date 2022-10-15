@@ -36,7 +36,7 @@
     background-size: 100%;
     border-radius: 100%;
     position: relative;
-    margin-top: 66px;
+    margin-top: 71.8px;
     transition: opacity .4s linear;
 }
 
@@ -75,13 +75,12 @@
 
 .popup__input-logo-label {
     border: 1px red solid;
-    top: 0;
     position: absolute;
     left: 0;
+    top: -38px;
     display: inline;
     width: 100%;
     text-align: center;
-    top: -36px;
     font-size: 14px;
     line-height: 24px;
 }
@@ -134,4 +133,20 @@
     white-space: nowrap;
     overflow: hidden;
     max-width: 358px;
+}
+
+
+.popup__input-logo_clear-button {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    z-index: 2;
+    cursor: pointer;
+    transition: all .2s linear;
+    border-radius: 100%;
+}
+
+.popup__input-logo_clear-button:hover {
+    transform: scale(1.2);
+    outline: 1px grey solid;
 }

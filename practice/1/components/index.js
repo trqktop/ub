@@ -106,7 +106,8 @@ function numberInputAutoReplacer(input) {//не нравится. передел
 const popupConfig = {
     openPopupButtonSelector: '.section__button',
     closePopupButtonSelector: '.popup__close-button',
-    popupSelector: '.popup'
+    popupSelector: '.popup',
+    popupSubmitButtonSelector: 'popup__submit-button'
 }//конфиг настроек для модульного окна
 
 
@@ -114,9 +115,10 @@ enablePopup(popupConfig)
 
 
 function enablePopup({ ...popupConfig }) { //передаем конфиг
-    const { openPopupButtonSelector, closePopupButtonSelector, popupSelector } = popupConfig//деструктуризируем
+    const { openPopupButtonSelector, closePopupButtonSelector, popupSelector, popupSubmitButtonSelector } = popupConfig//деструктуризируем
     const openPopupButton = document.querySelector(openPopupButtonSelector)
     const popup = document.querySelector(popupSelector)
+    const popupSubmitButton = popup.querySelector(popupSubmitButtonSelector);
     const closePopupButton = popup.querySelector(closePopupButtonSelector)//находим все елементы
     openPopupButton.addEventListener('click', () => openPopup(popup))//вешаем слушатели
     closePopupButton.addEventListener('click', () => closePopup(popup))//и этот тоже
@@ -125,10 +127,20 @@ function enablePopup({ ...popupConfig }) { //передаем конфиг
 
 
 
+
 function openPopup(popupElement) {//Функция открытия попапа
     popupElement.classList.add('popup_opened')
     document.addEventListener("keydown", closePopupEsc)//'добавлять обработчик события в функции открытия попапов'
     document.addEventListener('mousedown', closePopupOverlay)//'добавлять обработчик события в функции открытия попапов'
+    popupElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitForm(popupElement);
+    }, true)
+}
+
+
+function submitForm(popupElement) {
+    closePopup(popupElement)
 }
 
 
@@ -151,3 +163,19 @@ function closePopupOverlay(evt) {
     if (evt.target.classList.contains('popup'))
         closePopup(evt.target)
 }
+
+
+
+
+
+
+
+
+const inputLogo = document.getElementById('logo')
+const clearInputLogoButton = document.querySelector('.popup__input-logo_clear-button')
+
+
+clearInputLogoButton.addEventListener('click', () => {
+    inputLogo.value = ''
+})
+
