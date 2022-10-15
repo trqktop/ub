@@ -29,19 +29,24 @@ function setEventListeners(config, formElement) {
 }//при вводе в инпут проверям каждый символ на валидность
 
 
+
 function numberInputMaskEnable(numberInput, config, form) {
     numberInput.addEventListener('focusout', (evt) => {
         numberMaskReplacer(numberInput)
         hasValidForm(config, form, evt.target, config.inactiveButtonClass)
-    }, { once: true }
-    )
+    }, { once: true })
 }
+
 
 function numberMaskReplacer(numberInput) {
     if (numberInput.value.length > 9) {
-        numberInput.value = numberInput.value.split('').reduce((prev, char, index) => {
-            return index === 0 ? prev.replace(' x', '+7') : prev.replace('x', char)
-        }, ' x(xxx)xxx-xx-xx')
+        numberInput.value = numberInput.value
+            .split('')
+            .filter(item => Number(item))//убираю все лишние символы
+            .reduce((prev, char, index, arr) => {//заменяю и возвращаю новую строку
+                return index === 0 && char !== 7 && char !== '+' ?
+                    prev.replace('x', '7') : prev.replace('x', char)
+            }, '+x(xxx)xxx-xx-xx')
         checkValidation(numberInput)
     }
 }
@@ -154,13 +159,13 @@ function openPopup(popupElement) {//Функция открытия попапа
     popupElement.classList.add('popup_opened')
     document.addEventListener("keydown", closePopupEsc)//'добавлять обработчик события в функции открытия попапов'
     document.addEventListener('mousedown', closePopupOverlay)//'добавлять обработчик события в функции открытия попапов'
-    popupElement.addEventListener('submit', (event) => {
-        event.preventDefault();
-        submitForm(popupElement);
-    }, true)
+    popupElement.addEventListener('submit', submitHandler)
 }
 
-
+function submitHandler(evt) {
+    evt.preventDefault();
+    closePopup(evt.currentTarget)
+}
 
 
 
@@ -168,6 +173,7 @@ function closePopup(popupElement) {
     popupElement.classList.remove('popup_opened')
     document.removeEventListener("keydown", closePopupEsc)// 'удалять его при закрытии попапов.'
     document.removeEventListener('mousedown', closePopupOverlay)//'удалять его при закрытии попапов. иначе будет вешаться бесконечно'
+    popupElement.removeEventListener('submit', submitHandler)
 }
 
 

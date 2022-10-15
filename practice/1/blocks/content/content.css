@@ -1,7 +1,7 @@
 .content {
     display: block;
-    min-width: 100%;
-    min-height: 100%;
+    width: fit-content;
+    height: fit-content;
     margin: 0;
     padding: 0;
 }
