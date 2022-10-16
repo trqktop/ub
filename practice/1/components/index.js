@@ -16,6 +16,7 @@ function enableValidation(config) {
     formArr.forEach((formElement) => {
         setEventListeners(config, formElement)
     });
+
 }//вешаем слушатель событий на все формы
 
 
@@ -25,36 +26,53 @@ function setEventListeners(config, formElement) {
     const popupSubmitButtonToggleStyle = config.inactiveButtonClass;
     formElement.addEventListener('input', function (evt) {
         hasValidForm(config, formElement, evt.target, popupSubmitButtonToggleStyle)
-        numberInputMaskEnable(config, formElement)
     });
 }//при вводе в инпут проверям каждый символ на валидность
 
+numberInputMaskEnable(validatorConfig)
 
 
-function numberInputMaskEnable(config, formElement) {
+function numberInputMaskEnable(config) {
+    const formElement = document.querySelector(config.formSelector)
     const numberInput = formElement.querySelector(config.phoneInput)
     numberInput.addEventListener('focusout', (evt) => {
         numberMaskReplacer(numberInput)
         hasValidForm(config, formElement, evt.target, config.inactiveButtonClass)
-    }, { once: true })
+    })
 }
 
+
+// function numberMaskReplacer(numberInput) {
+//     if (numberInput.value.length > 9) {
+//         numberInput.value = numberInput.value
+//             .split('')
+//             .filter(item => Number(item))//убираю все лишние символы
+//             .reduce((prev, char, index, arr) => {//заменяю и возвращаю новую строку
+//                 return index === 0 && char !== 7 && char !== '+'
+//                     ? prev.replace('x', '7')
+//                     : char === '+'
+//                         ? prev.replace('+', char)
+//                         : prev.replace('x', char)
+//             }, '+x(xxx)xxx-xx-xx')
+//         checkValidation(numberInput)
+//     }
+// }
 
 function numberMaskReplacer(numberInput) {
-    if (numberInput.value.length > 9) {
-        numberInput.value = numberInput.value
+    if (numberInput.value.length >= 11) {
+        let res = numberInput
+            .value
             .split('')
-            .filter(item => Number(item))//убираю все лишние символы
-            .reduce((prev, char, index, arr) => {//заменяю и возвращаю новую строку
-                return index === 0 && char !== 7 && char !== '+'
-                    ? prev.replace('x', '7')
-                    : char === '+'
-                        ? prev.replace('+', char)
-                        : prev.replace('x', char)
-            }, '+x(xxx)xxx-xx-xx')
-        checkValidation(numberInput)
+            .filter(item => item >= 0)
+            .slice(1)
+            .reduce((prev, curr, index, arr) => {
+                return prev.replace('x', curr)
+            }, '+7(xxx)xxx-xx-xx')
+        numberInput.value = res
     }
 }
+
+
 
 
 
