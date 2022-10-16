@@ -6,13 +6,13 @@ const validatorConfig = ({
     inactiveButtonClass: 'popup__submit-button_disabled',
     inputErrorClass: '.popup__input_error-style',
     errorClass: '.popup__input-error',
-    openedPopup: 'popup_opened'
+    openedPopup: 'popup_opened',
+    phoneInput: '.phone'
 })//конфиг настроек для валидации
 
 
 function enableValidation(config) {
     const formArr = Array.from(document.querySelectorAll(config.formSelector))
-    formArr.forEach(form => numberInputMaskEnable(form.querySelector('#phone'), config, form))//ищу все поля с номерами телефона и передаю в маску
     formArr.forEach((formElement) => {
         setEventListeners(config, formElement)
     });
@@ -25,15 +25,17 @@ function setEventListeners(config, formElement) {
     const popupSubmitButtonToggleStyle = config.inactiveButtonClass;
     formElement.addEventListener('input', function (evt) {
         hasValidForm(config, formElement, evt.target, popupSubmitButtonToggleStyle)
+        numberInputMaskEnable(config, formElement)
     });
 }//при вводе в инпут проверям каждый символ на валидность
 
 
 
-function numberInputMaskEnable(numberInput, config, form) {
+function numberInputMaskEnable(config, formElement) {
+    const numberInput = formElement.querySelector(config.phoneInput)
     numberInput.addEventListener('focusout', (evt) => {
         numberMaskReplacer(numberInput)
-        hasValidForm(config, form, evt.target, config.inactiveButtonClass)
+        hasValidForm(config, formElement, evt.target, config.inactiveButtonClass)
     }, { once: true })
 }
 
@@ -44,8 +46,11 @@ function numberMaskReplacer(numberInput) {
             .split('')
             .filter(item => Number(item))//убираю все лишние символы
             .reduce((prev, char, index, arr) => {//заменяю и возвращаю новую строку
-                return index === 0 && char !== 7 && char !== '+' ?
-                    prev.replace('x', '7') : prev.replace('x', char)
+                return index === 0 && char !== 7 && char !== '+'
+                    ? prev.replace('x', '7')
+                    : char === '+'
+                        ? prev.replace('+', char)
+                        : prev.replace('x', char)
             }, '+x(xxx)xxx-xx-xx')
         checkValidation(numberInput)
     }
