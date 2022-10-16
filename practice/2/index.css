@@ -1,0 +1,7 @@
+ul {
+    background-color: #DBE2EF;
+    display: inline-block;
+    font-size: 14px;
+    font-family: sans-serif;
+    list-style-image: url('./icons8-черная-кошка-32.png');
+}
