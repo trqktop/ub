@@ -1,15 +1,20 @@
 const container = document.querySelector('.content')//контейнер для вставки
 const template = document.querySelector('template').content //темплейт
-
-
-
 const tableHeader = document.querySelector('.table__header')
-let dataFromServer = []
+
+const state = {
+    topDirection: false,
+    firstRender: true,
+    currentData: []
+}
+
+
 
 function api() {
     return fetch('https://jsonplaceholder.typicode.com/posts')//запрос
         .then(res => checkResponse(res))//обрабатываем ошибку
 }
+
 
 function checkResponse(res) {//обрабатываем ошибку
     if (res.ok) {
@@ -20,17 +25,20 @@ function checkResponse(res) {//обрабатываем ошибку
 
 function render() {
     api()
+        .then(data => state.topDirection ? data : data.reverse())
         .then(data => {
-            dataFromServer = data
-            return data
+            state.currentData = data
+            if (state.firstRender) {
+                state.firstRender = false
+                data.forEach(item => createElement(item))//для каждого оъекта создаем елемент)
+            }
+            else {
+                Array.from(document.querySelectorAll('.container')).reverse().forEach(item => item.remove())
+                data.forEach(item => createElement(item))//для каждого оъекта создаем елемент)
+            }
         })
-        .then(data => data.forEach(item => createElement(item)))//для каждого оъекта создаем елемент
         .catch(res => console.log(res))//ловим ошибку в консоль
 }
-
-
-
-
 
 
 function createElement(data) {
@@ -47,35 +55,36 @@ function createElement(data) {
 }
 
 
-
 function insertCard(container, element) {
     container.prepend(element)
 }
 
 
+tableHeader.addEventListener('click', columnsSort)
 
 
-function getSortedData(evt) {
-    // let orientation = null;
-    Array.from(container.childNodes).reverse().forEach(item => item.remove())
-    dataFromServer.sort((a, b) => {
-        // const current = evt.target.id
-        // if (orientation) {
-        //     return b[current] - a[current]
-        // }
-        // else {
-        //     return a[current] - b[current]
-        // }
-    }).forEach(item => {
-        createElement(item)
-    })
+function columnsSort(evt) {
+    state.topDirection = !state.topDirection
+    render()
 }
-
-tableHeader.addEventListener('click', getSortedData)
-
-
 
 render()
 
 
+const form = document.querySelector('.form')
 
+form.addEventListener('input', (evt) => {
+    getSearchInputValue(evt)
+})
+
+
+
+function getSearchInputValue(evt) {
+    const currentINputValue = evt.target.value
+    Array.from(document.querySelectorAll('.container')).reverse().forEach(item => item.remove())
+    state.currentData.forEach(item => {
+        if (item.title.match(currentINputValue) || item.body.match(currentINputValue)) {
+            createElement(item)
+        }
+    })
+}
