@@ -80,8 +80,6 @@ form.addEventListener('input', (evt) => {
     getSearchInputValue(evt)
 })
 
-
-
 function getSearchInputValue(evt) {
     const currentINputValue = evt.target.value
     Array.from(document.querySelectorAll('.container')).reverse().forEach(item => item.remove())
